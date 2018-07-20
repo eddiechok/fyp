@@ -1,0 +1,34 @@
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Order extends Model
+{
+	protected $fillable = [
+		'order_no',
+		'user_id',
+		'billing_name',
+		'billing_email',
+		'billing_address',
+		'billing_city',
+		'billing_state',
+		'billing_postcode',
+		'billing_phone',
+		'billing_name_on_card',
+		'billing_discount',
+		'billing_discount_code',
+		'billing_subtotal',
+		'billing_tax',
+		'billing_total',
+		'error',
+	];
+	public function user() {
+		return $this->belongsTo('App\User');
+	}    
+
+	public function products() {
+		return $this->belongsToMany('App\Product')->withPivot('quantity');
+	}
+}
