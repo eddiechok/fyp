@@ -51,12 +51,7 @@
             <div class="container">
                 <h1 class="text-center">Organic's Products</h1>
 
-                <p class="section-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore vitae nisi, consequuntur illum dolores cumque pariatur quis provident deleniti nesciunt officia est reprehenderit sunt aliquid possimus temporibus enim eum hic.</p>
-
-                <div class="text-center button-container">
-                    <a href="#" class="button">Featured</a>
-                    <a href="#" class="button">On Sale</a>
-                </div>
+                <p class="section-description">We only sell products we truly stand behind. If you buy something at Organic's, you know you are getting a high quality product. Our store is open 24/7! Shop onine anytime, day or night. Shop Organic, Sugar-free, Vegan and more.</p>
 
                 {{-- <div class="tabs">
                     <div class="tab">

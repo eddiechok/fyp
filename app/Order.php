@@ -16,6 +16,7 @@ class Order extends Model
 		'billing_state',
 		'billing_postcode',
 		'billing_phone',
+		'billing_payment_method',
 		'billing_name_on_card',
 		'billing_discount',
 		'billing_discount_code',

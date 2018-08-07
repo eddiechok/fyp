@@ -8,20 +8,17 @@
 
 @section('content')
 
-    <div class="breadcrumbs">
-        <div class="container">
-            <a href="/">Home</a>
-            <i class="fa fa-chevron-right breadcrumb-separator"></i>
-            <a href="{{route('shop.index')}}">Shop</a>
-            <i class="fa fa-chevron-right breadcrumb-separator"></i>
-            <span>{{  $product->name }}</span>
-        </div>
-    </div> <!-- end breadcrumbs -->
+    @component('components.breadcrumbs')
+        <a href="/">Home</a>
+        <i class="fa fa-chevron-right breadcrumb-separator"></i>
+        <a href="{{route('shop.index')}}">Shop</a>
+        <i class="fa fa-chevron-right breadcrumb-separator"></i>
+        <span>{{  $product->name }}</span>
+    @endcomponent <!-- end breadcrumbs -->
 
     <div class="product-section container">
         <div class="product-section-image">
             <img src="{{  productImage($product->img_default) }}" width="360" height="230" alt="{{$product->name}}">
-<!--        <img src="{{asset('img/products/'.$product->code.'.jpg')}}" alt="{{$product->name}}">-->    
         </div>
         <div class="product-section-information">
             <h1 class="product-section-title">{{$product->name}}</h1>

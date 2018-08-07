@@ -108,4 +108,19 @@ class ShopController extends Controller
     {
         //
     }
+
+    public function search(Request $request) {
+
+        $request->validate([
+            'query' => 'required|min:3',
+        ]);
+
+        $query = $request->input('query');
+
+        $products = Product::where('name', 'like', "%$query%")
+                            ->orWhere('code', 'like', "%$query%")
+                            ->orWhere('description', 'like', "%$query%")
+                            ->paginate(10);
+        return view('search-results', ['products' => $products]);
+    }
 }

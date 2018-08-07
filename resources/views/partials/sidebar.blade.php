@@ -37,13 +37,16 @@
 
     <div id="content">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div>
-
-                <button type="button" id="sidebarCollapse" class="btn btn-secondary" >
-                    <i class="fas fa-bars"></i>
-                </button>
-
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8">
+                        <button type="button" id="sidebarCollapse" class="btn btn-secondary" >
+                            <i class="fas fa-bars"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
+            
         </nav>
 
         @yield('content')

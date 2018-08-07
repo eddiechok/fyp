@@ -11,12 +11,16 @@ header.with-background {
 
       .logo {
         font-weight: bold;
-        font-size: 28px;
+        font-size: 32px;
+        font-family: 'Montserrat', Arial, sans-serif;
+        font-weight: bold;
       }
 
       ul {
         a {
           color: $white;
+          font-family: 'Montserrat', Arial, sans-serif;
+          font-weight: bold;
           &:hover {
             color: darken($white, 10%);
           }
@@ -62,9 +66,12 @@ header.with-background {
 
       .logo {
         font-weight: bold;
-        font-size: 28px;
+        font-size: 32px;
         color: $white;
         margin-right:38px;
+        font-family: 'Montserrat', Arial, sans-serif;
+        font-weight: bold;
+
       }
 
       ul {
@@ -82,8 +89,11 @@ header.with-background {
 
         a {
           color: $white;
+          font-family: 'Montserrat', Arial, sans-serif;
+          font-weight: bold;
           &:hover {
-            color: darken($white, 10%);
+            color: darken($white, 10%) !important;
+            text-decoration: none !important;
           }
         }
 

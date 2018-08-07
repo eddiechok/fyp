@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Requests\CheckoutRequest;
-use Cartalyst\Stripe\Laravel\Facades\Stripe;
-use Gloudemans\Shoppingcart\Facades\Cart;
-use Cartalyst\Stripe\Exception\CardErrorException;
+use App\Mail\OrderPlaced;
 use App\Order;
 use App\OrderProduct;
+use Cartalyst\Stripe\Exception\CardErrorException;
+use Cartalyst\Stripe\Laravel\Facades\Stripe;
+use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class CheckoutController extends Controller
 {
@@ -24,7 +26,7 @@ class CheckoutController extends Controller
             'discount' => $this->getNumbers()->get('discount'),
             'newSubTotal' => $this->getNumbers()->get('newSubTotal'),
             'newTax' => $this->getNumbers()->get('newTax'),
-            'newTotal' => $this->getNumbers()->get('newTotal'),
+            'newTotal' => $this->getNumbers()->get('newTotal')
         ]);
     }
 
@@ -51,22 +53,24 @@ class CheckoutController extends Controller
         })->values()->toJson();
 
         try { 
-            $charge = Stripe::charges()->create([
-                'amount' => $this->getNumbers()->get('newTotal'),
-                'currency' => 'MYR',
-                'source' => $request->stripeToken,
-                'description' => 'Order',
-                'receipt_email' => $request->email,
-                'metadata' => [
-                    'contents' => $contents,
-                    'quantity' => Cart::instance('default')->count(),
-                    'discount' => collect(session()->get('coupon'))->toJson()
-                ]
-            ]);
+            if ($request->payment_method == 'credit_and_debit_card') {
+                $charge = Stripe::charges()->create([
+                    'amount' => $this->getNumbers()->get('newTotal'),
+                    'currency' => 'MYR',
+                    'source' => $request->stripeToken,
+                    'description' => 'Order',
+                    'receipt_email' => $request->email,
+                    'metadata' => [
+                        'contents' => $contents,
+                        'quantity' => Cart::instance('default')->count(),
+                        'discount' => collect(session()->get('coupon'))->toJson()
+                    ]
+                ]);
+            } 
 
             //Insert to orders table and product_order table
-            $this->addToOrdersTable($request, null);
-
+            $order = $this->addToOrdersTable($request, null);
+            Mail::send(new OrderPlaced($order));
 
             //SUCCESSFUL
             Cart::instance('default')->destroy();
@@ -155,6 +159,7 @@ class CheckoutController extends Controller
             'billing_state' => $request->state,
             'billing_postcode' => $request->postcode,
             'billing_phone' => $request->phone,
+            'billing_payment_method' => $request->payment_method,
             'billing_name_on_card' => $request->name_on_card,
             'billing_discount' => $this->getNumbers()->get('discount'),
             'billing_discount_code' => $this->getNumbers()->get('code'),
@@ -172,5 +177,7 @@ class CheckoutController extends Controller
                 'quantity' => $item->qty,
             ]);
         }
+
+        return $order;
     }
 }
